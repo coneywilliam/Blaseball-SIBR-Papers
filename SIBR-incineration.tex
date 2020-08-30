@@ -1,0 +1,318 @@
+\documentclass[9pt,twocolumn,twoside,a4]{sibrjnl}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{epigraph}
+\newlength\mylength
+
+\articletype{inv} % article type
+% {inv} Investigations
+% {ga} Game Analysis
+% {ma} Metagame Analysis
+% {dr} Decree Reports
+
+\title{Understanding Replacement and Incineration in Blaseball via Permutation Tests}
+
+\author[$\ast$]{Cuttlefishman (@Cuttlefishman\#6487) (he/him)}
+%\author[$\ast$, 2]{Author Two (@discordtag\#number) (pronouns)}
+
+\affil[$\ast$]{Society for Internet Blaseball Research}
+%\affil[$\dagger$]{Author two affiliation}
+%\affil[$\ddagger$]{Author three affiliation}
+%\affil[$\S$]{Author four affiliation}
+%\affil[$\ast\ast$]{Author five affiliation}
+
+\keywords{Incineration \\ Replacement \\ Permutation Test}
+
+\runningtitle{Society for Internet Blaseball Research} % For use in the footer 
+
+%% For the footnote.
+%% Give the last name of the first author if only one author;
+% \runningauthor{FirstAuthorLastname}
+%% last names of both authors if there are two authors;
+% \runningauthor{FirstAuthorLastname and SecondAuthorLastname}
+%% last name of the first author followed by et al, if more than two authors.
+\runningauthor{Cuttlefishman}
+
+\begin{abstract}
+\textit{Comparison via permutation tests of incinerated and replacement players to the non-incinerated and non-replacement populations indicates that player quality does not significantly different from each other for Season 3, when calculated either for player’s star ratings or for various performance based statistics.}
+\end{abstract}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{firststyle}
+\logomark
+\articletypemark
+\marginmark
+\firstpagefootnote
+
+% Use the \equalcontrib command to mark authors with equal
+% contributions, using the relevant superscript numbers
+
+% Edit 
+%\equalcontrib{1}
+%\correspondingauthoraffiliation{2}{ Secondary authorship information goes.}
+
+% Only used for adjusting extra space in the left column of the first page
+\vspace{-30pt}
+
+% Set the number here to the number of affiliations (in this example, 2)
+\setcounter{footnote}{0} 
+
+%%\noindent This Society for Internet Blaseball Research journal template is provided to help you write your work in the correct journal format. Instructions for use are provided below. 
+
+\epigraph{\textbf{\textit{Dare pondus idonea fumo}}\\ Fit to give weight to smoke.}{\textit{Persius \\ Satires, V, 20.}}
+
+\section{Introduction}
+Blaseball, even with the beginning of reliable statistics collection by the Society for Internet Blaseball Research ({\small{SIBR}}), is still a murky sport to understand.  While attention has been played to many facets of the game in prior research, perhaps one of the most obscured part of the game is the nature of incineration and replacement in the Internet Blaseball League ({\small{IBL}}), the premier professional level baseball league, especially as the happenings of the both the office of the commissioner\footnote{ Who is doing a great job.} and the underleagues remain highly mysterious. 
+
+This  paper,  using  season  3  data,  begins to try  to  measure the nature of incineration and replacement in the {\small{IBL}} as the Uncertainty Era brought about a substantial increase in player incinerations (and subsequent replacements). While the process of determining "replacement level" as done in reality league baseball sabermetrics relies on data not available to us at present\footnote{For more information on how the performance and value of a reality baseball league “replacement-level” player is measured and identified, sabermetrics site Fan-Graphs has provided a number of detailed explanations of their methodology. See \citep{Slowinski2010} and \citep{Cameron2013}}, comparisons can be made with two main sources of data - the star ratings of players, and the value of their performance based stats.
+
+\section{Data}
+This study makes use of a Season 3 player data, as captured, interpreted, and broken down by the the datawitches of SIBR \citep{BlaseballS3Stlats}, \citep{BlaseballS3Performance}. This data set of 40 incinerated and 40 replacement players records most, although not all, players who have been incinerated or replaced so far in {\small{IBL}}’s history\footnote{Some issues with connecting with the IBL’s API has meant that at parts, data is either missing or incomplete in nature. In the data set in used for this paper, this is most apparent with the fact that the pitching performance data set records 8 replacement players, but only 6 incinerated players.\citep{BlaseballS3Performance}. While not ideal, this shouldn't make or break the research conducted in this paper.}. 
+
+This set is based off of hourly scrapes of player data from the Blaseball API, so star ratings should reflect the stlats just before incineration or after replacement occurs. This is then compared against non-replaced, non-incinerated players as a baseline measurement. All performance-based statistics are based off of the entirety of a player’s season 3 performance (extended or reduced based off of the portion of the season that they played), where stats which are not plate appearance neutral are ignored (to avoid the obvious bias present where incinerated or replacement players who by nature missed some amount of games would obviously have lower values).
+
+\section{Methodology}
+The specific circumstances that this data set presents, where we have multiple sets from the same population, but with an unknown distribution and with differing samples presents a challenge to most standard probability tests. Varying measurements of the average can be compared directly; Table \ref{tab:sample_pop} for the star ratings of the population and the sampled groups, Table \ref{tab:neutral_batting} for various plate appearance neutral performance-based batting statistics, and Table \ref{tab:neutral_pitching} for pitching appearance neutral performance-based pitching statistics. 
+
+On the surface this would indicate that these groups are identical in nature, but this  is by itself is not sufficient evidence as such. However, permutation based probability tests provide the ability to evaluate these more completely, by comparing the current distribution of batting stars with other potential distributions to evaluate if this understanding that the two groups are identical is true\footnote{ Please see \citep{Wilber2019} for a more detailed explanation of permutation tests}.
+
+\begin{table}[!h]
+    \caption{Various Sample and Population Star Ratings}
+    \centering
+    \begin{tabular}{c >{\centering}m{1.2cm} >{\centering}m{1.2cm} m{1.3cm}<{\centering}}
+    \header
+         Sample & Measure of Average & Batting Stars & Pitching Stars\\
+         \makecell{Season 3\\Adjusted Player\\Population (n=321)} & Mean  & 2.258567  & 1.788162\\
+         \rowcolor{grey!30}
+         & Median  & 2  & 1.5\\
+         & Mode  & 2  & 1.5\\
+         \rowcolor{grey!30}
+         \makecell{Non-Replacement,\\ Non-Incinerated Players\\ (n = 243)} & Mean  & 2.273663  & 1.829218\\
+         & Median  & 2  & 1.5\\
+         \rowcolor{grey!30}
+         & Mode  & 2  & 1.5\\
+         \makecell{Incinerated Players\\ (n = 40)} & Mean  & 2.3375  & 1.525\\
+         \rowcolor{grey!30}
+         & Median  & 2  & 1.5\\
+         & Mode  & 2  & 1\\
+         \rowcolor{grey!30}
+         \makecell{Replacement Players\\ (n=40)} & Mean & 2.1 & 1.8\\
+         & Median  & 2  & 1.75\\
+         \rowcolor{grey!30}
+         & Mode  & 1  & 1.5\\
+    \end{tabular}
+    \label{tab:sample_pop}
+\end{table}
+
+To facilitate measuring if these incinerated and replaced players are different from the population at large, a series of Asymptotic Two-Sample Fisher-Pitman Permutation Tests were run between Non-Replacement and Replacement and Non-Incinerated and Incinerated players respectively to test if these two samples are statistically distinguishable from each other\footnote{ That is, the alternative hypothesis where $\mu \neq 0$}, using the coin package\footnote{ \url{https://cran.r-project.org/web/packages/coin/index.html}} in the statistical software R. These tests were repeated for both batting and pitching stars, out of stlat based information, as well as for performance-based batting statistics of SLG, BA, BABIP, K\%, BB\%, AB/HR, OBP, and BlwOBA, and the pitching-based performance statistics of Avg RD / Loss, ERA, FIP, and WHIP.\footnote{For details to how these are calculated, see \citep{BlaseballS3Performance}}.
+
+
+\section{Results}
+The results of the permutation tests for batting and pitching stars and for performance-based statistics can be seen in Tables \ref{tab:asymp_tests_star}, \ref{tab:asymp_tests_plate}, and \ref{tab:asymp_tests_pitch} respectively.
+
+\begin{table}[!h]
+    \caption{Results of Star Rating Asymptotic Two-Sample Fisher-Pitman Permutation Tests}
+    \centering
+    \begin{tabular}{c >{\centering}m{1.2cm} >{\centering}m{1.2cm} m{1.3cm}<{\centering}}
+    \header
+         Sample Pair & Test & Z-Score & p-value\\
+         \makecell{Incinerated,\\Not Incinerated Samples} & Batting Stars & 0.54694 & 0.5844 \\
+         \rowcolor{grey!30}
+         & Pitching Stars & -1.7622 & 0.07804 \\
+        \makecell{Replacement,\\Not Replacement Samples} & Batting Stars & 1.0987 & 0.2719 \\
+         \rowcolor{grey!30}
+         & Pitching Stars & -0.07927& 0.9368 \\
+    \end{tabular}
+    \label{tab:asymp_tests_star}
+\end{table}
+
+\begin{table}[!h]
+    \caption{Results of Plate Appearance Neutral Performance-based Batting Statistics Asymptotic Two-Sample Fisher-Pitman Permutation Tests}
+    \centering
+    \begin{tabular}{c >{\centering}m{1.2cm} >{\centering}m{1.2cm} m{1.3cm}<{\centering}}
+    \header
+         Sample Pair & Test & Z-Score & p-value\\
+         \makecell{Incinerated,\\Not Incinerated Samples}& SLG & -0.39456 & 0.6932 \\
+         \rowcolor{grey!30}
+         & BA & -0.54468 & 0.586 \\
+         & BABIP & -0.59221 & 0.5537 \\
+         \rowcolor{grey!30}
+         & K\% & -1.4347 & 0.1514 \\
+         & BB\% & 0.59748 & 0.5502 \\
+         \rowcolor{grey!30}
+         & AB/HR & -0.42868 & 0.6682 \\
+         & OBP & 0.077131 & 0.9385 \\
+         \rowcolor{grey!30}
+         & BlwOBA & -0.12448 & 0.9009 \\
+         \makecell{Replacement,\\Not Replacement Samples} & SLG & 1.5312 & 0.1257 \\
+         \rowcolor{grey!30}
+         & BA & 1.8925 & 0.05843 \\
+         & BABIP & 1.9313 & 0.05345 \\
+         \rowcolor{grey!30}
+         & K\% & -0.1875 & 0.8513 \\
+         & BB\% & 0.97569 & 0.3292 \\
+         \rowcolor{grey!30}
+         & AB/HR & 0.64164 & 0.5211 \\
+         & OBP & 1.8035 & 0.07131 \\
+         \rowcolor{grey!30}
+         & BlwOBA & 1.8944 & 0.05817 \\
+    \end{tabular}
+    \label{tab:asymp_tests_plate}
+\end{table}
+
+\begin{table}[!h]
+    \caption{Results of Pitching Appearance Neutral Performance-based Pitching Statistics Asymptotic Two-Sample Fisher-Pitman Permutation Tests}
+    \centering
+    \begin{tabular}{c >{\centering}m{1.2cm} >{\centering}m{1.2cm} m{1.3cm}<{\centering}}
+    \header
+         Sample Pair & Test & Z-Score & p-value\\
+         \makecell{Incinerated,\\Not Incinerated Samples} & Avg RD / Loss & -0.69731 & 0.4856 \\
+         \rowcolor{grey!30}
+         & ERA & 3.2735 & 0.001062 \\
+         & FIP & -2.4649 & 0.01371 \\
+         \rowcolor{grey!30}
+         & WHIP & 0.22414 & 0.8227 \\
+         \makecell{Replacement,\\Not Replacement Samples} & Avg RD / Loss & 0.81 & 0.4179 \\
+         \rowcolor{grey!30}
+         & ERA & -0.46474 & 0.6421 \\
+         & FIP & -0.67268 & 0.5012 \\
+         \rowcolor{grey!30}
+         & WHIP & -1.5425 & 0.123 \\
+    \end{tabular}
+    \label{tab:asymp_tests_pitch}
+\end{table}
+
+\section{Analysis}
+Both incinerated and replacement players fall well into the centre of any reasonable confidence interval for batting, pitching stars, and the majority of performance-based statistics observed. Assuming a 95\% confidence interval, only the ERA and FIP for incinerated pitchers fall outside. Looking more closely at the statistics lines, Paul Barnes stands out as a pitcher from this period, with a recorded ERA of 45 and FIP of 0, as he only pitched for a single inning prior to incineration. This seems to explain a large part of why ERA and FIP are outside of the confidence interval, as when Barnes is removed and ERA and FIP tests are recalculated, ERA falls within the 95\% confidence interval and FIP is significantly closer to it, as shown in Table \ref{tab:barnes_pitch}.
+
+\begin{table}[!h]
+    \caption{Results of Barnes Adjusted Pitching Appearance Neutral Performance-based Pitching Statistics Asymptotic Two-Sample Fisher-Pitman Permutation Tests}
+    \centering
+    \begin{tabular}{c >{\centering}m{1.2cm} >{\centering}m{1.2cm} m{1.3cm}<{\centering}}
+    \header
+         Sample Pair & Test & Z-Score & p-value\\
+         \makecell{Incinerated,\\Not Incinerated Samples} & ERA & -1.4754 & 0.1401 \\
+         \rowcolor{grey!30}
+         & FIP & -2.1465 & 0.03183 \\
+    \end{tabular}
+    \label{tab:barnes_pitch}
+\end{table}
+
+This points to the potential that FIP in blaseball might be calculated in a manner which is erroneous potentially, although further evidence from a broader span of seasons and a larger dataset would be needed before any persuasive argument to this effect could be made.
+
+Reviewing the data as a whole, the fact that incinerated and replacement players fall well within the centre of their non-replacement, non-incinerated siblings in both star ratings and performance-based statistics is significant. This is the first strong evidence that incineration as an effect is not targeting any specific statistical subcategory of players and that for blaseball, replacement players are statistically indistinguishable from the current rosters. As much as the actions of a rogue umpire when one’s favorite player is incinerated saddens us, one should take some consolation in the fact that umpires are incinerating indiscriminately.
+
+
+\section{Future Work}
+This work was by all means the first investigation of incineration and replacement published by {\small{SIBR}}. Further work will need to be done to continue from this start, confirming with larger datasets that incineration and replacement are not targeted or statistically discernible in future seasons, or by which the specific mechanisms of the frequency of incinerations is understood in. At the time of this paper’s publication, the emergence of new weather conditions observed on the blaseball pitch, such as feedback may have influenced the frequency of the required solar eclipses need for incinerations from what they were observed to be in Season 3.
+
+
+\section{Acknowledgements}
+Special thanks to BaronBliss (@baronbliss\#7135) (any), the BLaTeX (Blaron of Blaseball LateX), for creating the SIBR template and initial help in bringing this paper into the template.
+
+Special thanks as well to my various statistics teachers who laid my basis of understanding for this research.
+
+\bibliography{bibliography}
+\clearpage
+
+\begin{table}[!h]
+    \caption{Various Sample and Population Plate Appearance Neutral Performance-based Batting Statistics}
+    \begin{tabular}{c >{\centering}m{0.2\textwidth} m{0.2\textwidth} m{0.2\textwidth} m{0.2\textwidth}}
+    \header
+         Sample & Statistic & Mean & Median\\ \makecell{Season 3\\Adjusted Batting Population\\(n = 200)} & SLG & 0.441102203970863 & 0.432002388627351\\
+        \rowcolor{grey!30}
+         & BA & 0.267134605986905 &  0.268306332842415\\
+         & BABIP & 0.279449891045805 & 0.281599483839253\\
+        \rowcolor{grey!30}
+         & K\% & 0.134325025405184 & 0.134572882588150\\
+         & BB\% & 0.634371200853981 & 0.482758620689655\\
+        \rowcolor{grey!30}         
+         & AB/HR & 52.155692195926800 & 29.3888888888889\\
+         & OBP & 0.309827327474848 & 0.308952676790919\\
+        \rowcolor{grey!30}
+         & BlwOBA & 0.185826458 & 0.185328047\\
+         
+         \makecell{Non-Replacement,\\Non-Incinerated Batters\\(n = 151)} & SLG & 0.447052806856611 & 0.432297965915338\\
+        \rowcolor{grey!30}
+         & BA & 0.269805906301752 &  0.269145765176300\\
+         & BABIP & 0.282505294545485 & 0.282247284878864\\
+        \rowcolor{grey!30}
+         & K\% & 0.136084281198298 & 0.135443668993021\\
+         & BB\% & 0.642419253535039 & 0.471217105263158\\
+        \rowcolor{grey!30}         
+         & AB/HR & 53.9315483587587 & 29.477272727272700\\
+         & OBP & 0.311984718386041 & 0.308952676790919\\
+        \rowcolor{grey!30}
+         & BlwOBA & 0.187536869 & 0.186321825\\
+         
+         \makecell{Incinerated Batters\\(n = 21)} & SLG & 0.4329688721859 & 0.426923076923077\\
+        \rowcolor{grey!30}
+         & BA & 0.262090471090517 & 0.279245283018868\\
+         & BABIP & 0.273230521324193 & 0.272727272727273\\
+        \rowcolor{grey!30}
+         & K\% & 0.11752363037374 & 0.1\\
+         & BB\% & 0.70798906569175 & 0.626577840112202\\
+        \rowcolor{grey!30}         
+         & AB/HR & 45.8627604166667 & 25.775\\
+         & OBP & 0.309010131298295 & 0.321875\\
+        \rowcolor{grey!30}
+         & BlwOBA & 0.185017148 & 0.203442308\\
+         
+        \makecell{Replacement Batters\\(n = 29)} & SLG & 0.414849487715728 & 0.424019607843137\\
+        \rowcolor{grey!30}
+         & BA & 0.252558006912412 & 0.25856697819314\\
+         & BABIP & 0.262580733185137 & 0.272727272727273\\
+        \rowcolor{grey!30}
+         & K\% & 0.136151330249567 & 0.142857142857143\\
+         & BB\% & 0.537076491780635 & 0.448275862068966\\
+        \rowcolor{grey!30}         
+         & AB/HR & 45.1404903378571 & 29.3333333333333\\
+         & OBP & 0.293934460432795 & 0.305882352941176\\
+        \rowcolor{grey!30}
+         & BlwOBA & 0.175582095 & 0.182136076\\
+    \end{tabular}
+    \label{tab:neutral_batting}
+\end{table}
+
+\clearpage
+
+\begin{table}[!h]
+    \caption{Various Sample and Population Pitching Appearance Neutral Performance-based Pitching Statistics}
+    \begin{tabular}{c >{\centering}m{0.2\textwidth} m{0.2\textwidth} m{0.2\textwidth} m{0.2\textwidth}}
+    \header
+         Sample & Statistic & Mean & Median\\ \makecell{Season 3\\ Adjusted Pitching Population\\(n = 106)} & Avg RD / Loss & 3.22 & 3.13\\
+        \rowcolor{grey!30}
+         & ERA & 5.60 & 5.12\\
+         & FIP & 6.01 & 5.90\\
+        \rowcolor{grey!30}
+         & WHIP & 1.40 & 1.37\\
+         
+        \makecell{Non-Replacement,\\Non-Incinerated Pitchers\\(n = 92)} & Avg RD / Loss & 3.26 & 3.17\\
+        \rowcolor{grey!30}
+         & ERA & 5.19 & 4.99\\
+         & FIP & 6.06 & 5.93\\
+        \rowcolor{grey!30}
+         & WHIP & 1.39 & 1.36\\
+        
+        \makecell{Incinerated Pitchers\\(n = 6)} & Avg RD / Loss & 2.91 & 3.00\\
+        \rowcolor{grey!30}
+         & ERA & 11.01 & 4.39\\
+         & FIP & 4.89 & 4.75\\
+        \rowcolor{grey!30}
+         & WHIP & 1.43 & 155\\
+         
+        \makecell{Replacement Pitchers\\(n = 8)} & Avg RD / Loss & 2.92 & 3.08\\
+        \rowcolor{grey!30}
+         & ERA & 6.26 & 6.11\\
+         & FIP & 6.27 & 6.22\\
+        \rowcolor{grey!30}
+         & WHIP & 1.57 & 1.55\\ 
+    \end{tabular}
+    \label{tab:neutral_pitching}
+\end{table}
+
+\end{document}
